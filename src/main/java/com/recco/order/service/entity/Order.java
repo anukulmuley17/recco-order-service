@@ -10,9 +10,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.recco.order.service.util.OrderStatus;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,14 +30,16 @@ public class Order {
     private Long orderId;
 
     private String tableId;
-    private String sessionId;
+    // private String sessionId;
     
+    @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
-    private OrderStatus status = OrderStatus.PENDING;
+    private OrderStatus orderStatus = OrderStatus.PENDING;
 
     private Double totalAmount;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference 
     private List<OrderItem> items = new ArrayList<>();
 
@@ -58,20 +62,20 @@ public class Order {
 		this.tableId = tableId;
 	}
 
-	public String getSessionId() {
-		return sessionId;
+	// public String getSessionId() {
+	// 	return sessionId;
+	// }
+
+	// public void setSessionId(String sessionId) {
+	// 	this.sessionId = sessionId;
+	// }
+
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
 	}
 
-	public void setSessionId(String sessionId) {
-		this.sessionId = sessionId;
-	}
-
-	public OrderStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(OrderStatus status) {
-		this.status = status;
+	public void setOrderStatus(OrderStatus status) {
+		this.orderStatus = status;
 	}
 
 	public Double getTotalAmount() {
@@ -97,7 +101,14 @@ public class Order {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
+
+	@Override
+	public String toString() {
+		return "Order [orderId=" + orderId + ", tableId=" + tableId + ", orderStatus=" + orderStatus + ", totalAmount="
+				+ totalAmount + ", items=" + items + ", createdAt=" + createdAt + "]";
+	}
     
+	
     
 }
 

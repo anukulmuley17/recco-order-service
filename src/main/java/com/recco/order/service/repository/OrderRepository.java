@@ -13,9 +13,9 @@ import com.recco.order.service.util.OrderStatus;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByTableId(String tableId);
-    List<Order>  findByTableIdAndStatus(String tableId, OrderStatus status);
-	List<Order> findByTableIdAndStatusNot(String tableId, OrderStatus status);
-	@Query("SELECT o FROM Order o WHERE o.status = 'PENDING' AND o.createdAt < :time")
+    List<Order>  findByTableIdAndOrderStatus(String tableId, OrderStatus orderStatus);
+	List<Order> findByTableIdAndOrderStatusNot(String tableId, OrderStatus orderStatus);
+	@Query("SELECT o FROM Order o WHERE o.orderStatus = 'PENDING' AND o.createdAt < :time")
     List<Order> findPendingOrdersBefore(LocalDateTime time);
 }
 

@@ -28,7 +28,7 @@ public class OrderAutoCancelService {
         List<Order> expiredOrders = orderRepository.findPendingOrdersBefore(tenMinutesAgo);
 
         if (!expiredOrders.isEmpty()) {
-            expiredOrders.forEach(order -> order.setStatus(OrderStatus.CANCELLED));
+            expiredOrders.forEach(order -> order.setOrderStatus(OrderStatus.CANCELLED));
             orderRepository.saveAll(expiredOrders);
             System.out.println("Auto-canceled " + expiredOrders.size() + " expired orders.");
         }

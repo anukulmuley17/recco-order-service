@@ -1,17 +1,15 @@
 package com.recco.order.service.dto;
 
-import java.math.BigDecimal;
-
 public class OrderItemRequest {
-    private String name;
+    private String itemName;
     private Integer quantity;
     private Double price;
 
-	public String getName() {
-		return name;
+	public String getItemName() {
+		return itemName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
 	public Integer getQuantity() {
 		return quantity;
@@ -25,7 +23,10 @@ public class OrderItemRequest {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-    
-    
+//	@Override
+//	public String toString() {
+//		return "OrderItemRequest [itemName=" + itemName + ", quantity=" + quantity + ", price=" + price + "]";
+//	}
+
     
 }
