@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.recco.order.service.entity.Order;
 import com.recco.order.service.repository.OrderRepository;
 import com.recco.order.service.util.OrderStatus;
+import com.recco.order.service.util.TableStatus;
 
 @Service
 public class OrderAutoCancelService {
@@ -28,9 +29,15 @@ public class OrderAutoCancelService {
         List<Order> expiredOrders = orderRepository.findPendingOrdersBefore(tenMinutesAgo);
 
         if (!expiredOrders.isEmpty()) {
-            expiredOrders.forEach(order -> order.setOrderStatus(OrderStatus.CANCELLED));
+            expiredOrders.forEach(order -> {
+            	
+            order.setOrderStatus(OrderStatus.REJECTED);
+            order.setTableStatus(TableStatus.INACTIVE);}
+        );
             orderRepository.saveAll(expiredOrders);
             System.out.println("Auto-canceled " + expiredOrders.size() + " expired orders.");
         }
     }
 }
+
+//todo if order is rejected then set table status as INACTIVE and item status as CANCELLED

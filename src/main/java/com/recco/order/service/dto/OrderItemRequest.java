@@ -1,15 +1,21 @@
 package com.recco.order.service.dto;
 
 public class OrderItemRequest {
-    private String itemName;
+    private String menuItemName;
     private Integer quantity;
     private Double price;
 
-	public String getItemName() {
-		return itemName;
+//	public String getItemName() {
+//		return itemName;
+//	}
+//	public void setItemName(String itemName) {
+//		this.itemName = itemName;
+//	}
+	public String getMenuItemName() {
+		return menuItemName;
 	}
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
+	public void setMenuItemName(String menuItemName) {
+		this.menuItemName = menuItemName;
 	}
 	public Integer getQuantity() {
 		return quantity;
@@ -25,7 +31,7 @@ public class OrderItemRequest {
 	}
 //	@Override
 //	public String toString() {
-//		return "OrderItemRequest [itemName=" + itemName + ", quantity=" + quantity + ", price=" + price + "]";
+//		return "OrderItemRequest [menuItemName=" + menuItemName + ", quantity=" + quantity + ", price=" + price + "]";
 //	}
 
     

@@ -113,7 +113,7 @@ public class OrderService {
 
         // Process each item in the request
         for (OrderItemRequest itemRequest : request.getItems()) {
-            OrderItem existingItem = findItemInOrder(order, itemRequest.getItemName());
+            OrderItem existingItem = findItemInOrder(order, itemRequest.getMenuItemName());
 
             if (existingItem != null) {
                 // Update existing item quantity
@@ -122,11 +122,11 @@ public class OrderService {
                 // Create new item
                 existingItem = new OrderItem();
                 existingItem.setOrder(order);
-                existingItem.setMenuItemName(itemRequest.getItemName());
+                existingItem.setMenuItemName(itemRequest.getMenuItemName());
                 existingItem.setQuantity(itemRequest.getQuantity());
                 
                 // Get price from Menu Service
-                Double itemPrice = getPriceOfItem(itemRequest.getItemName(), qrToken);
+                Double itemPrice = getPriceOfItem(itemRequest.getMenuItemName(), qrToken);
                 existingItem.setPrice(itemPrice);
                 
                 // Add to order's items collection
@@ -225,13 +225,13 @@ public class OrderService {
         // Prepare updated items
         List<OrderItem> updatedItems = updatedOrderRequest.getItems().stream().map(req -> {
             OrderItem item = new OrderItem();
-            item.setMenuItemName(req.getItemName());
+            item.setMenuItemName(req.getMenuItemName());
             item.setQuantity(req.getQuantity());
 
             // Fetch price from Menu Service (trusted source)
-            Double price = getPriceOfItem(req.getItemName(), qrToken);
+            Double price = getPriceOfItem(req.getMenuItemName(), qrToken);
             if (price == null) {
-                throw new RuntimeException("Price not found for item: " + req.getItemName());
+                throw new RuntimeException("Price not found for item: " + req.getMenuItemName());
             }
 
             item.setPrice(price);

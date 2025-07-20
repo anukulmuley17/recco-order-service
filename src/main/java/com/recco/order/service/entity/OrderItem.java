@@ -26,6 +26,7 @@ public class OrderItem {
     private String menuItemName;
     private Integer quantity;
     private Double price;
+    private String preference;
 	public Long getItemId() {
 		return itemId;
 	}
@@ -56,10 +57,16 @@ public class OrderItem {
 	public void setPrice(Double price) {
 		this.price = price;
 	}
+	public String getPreference() {
+		return preference;
+	}
+	public void setPreference(String preference) {
+		this.preference = preference;
+	}
 	@Override
 	public String toString() {
 		return "OrderItem [itemId=" + itemId + ", order=" + order + ", menuItemName=" + menuItemName + ", quantity="
-				+ quantity + ", price=" + price + "]";
+				+ quantity + ", price=" + price + ", preference=" + preference + "]";
 	}
     
 }

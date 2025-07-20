@@ -5,3 +5,4 @@ public class MenuItemNotFoundException extends RuntimeException {
         super(message);
     }
 }
+

@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.recco.order.service.util.OrderStatus;
+import com.recco.order.service.util.TableStatus;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -35,6 +36,10 @@ public class Order {
     @Column(name = "order_status")
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus = OrderStatus.PENDING;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "ENUM('ACTIVE', 'INACTIVE', 'CLOSED')")
+    private TableStatus tableStatus;
 
     private Double totalAmount;
 
@@ -62,20 +67,20 @@ public class Order {
 		this.tableId = tableId;
 	}
 
-	// public String getSessionId() {
-	// 	return sessionId;
-	// }
-
-	// public void setSessionId(String sessionId) {
-	// 	this.sessionId = sessionId;
-	// }
-
 	public OrderStatus getOrderStatus() {
 		return orderStatus;
 	}
 
 	public void setOrderStatus(OrderStatus status) {
 		this.orderStatus = status;
+	}
+    
+	public TableStatus getTableStatus() {
+		return tableStatus;
+	}
+
+	public void setTableStatus(TableStatus tableStatus) {
+		this.tableStatus = tableStatus;
 	}
 
 	public Double getTotalAmount() {
@@ -90,9 +95,21 @@ public class Order {
 		return items;
 	}
 
-	public void setItems(List<OrderItem> items) {
-		this.items = items;
-	}
+//	public void setItems(List<OrderItem> items) {
+//		this.items = items;
+//	}
+	
+    public void setItems(List<OrderItem> items) {
+        if (this.items == null) {
+            this.items = items;
+        } else {
+            this.items.clear();
+            if (items != null) {
+                this.items.addAll(items);
+                items.forEach(item -> item.setOrder(this));
+            }
+        }
+    }
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
@@ -101,12 +118,13 @@ public class Order {
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
 	}
+	
 
-	@Override
-	public String toString() {
-		return "Order [orderId=" + orderId + ", tableId=" + tableId + ", orderStatus=" + orderStatus + ", totalAmount="
-				+ totalAmount + ", items=" + items + ", createdAt=" + createdAt + "]";
-	}
+//	@Override
+//	public String toString() {
+//		return "Order [orderId=" + orderId + ", tableId=" + tableId + ", orderStatus=" + orderStatus + ", tableStatus="
+//				+ tableStatus + ", totalAmount=" + totalAmount + ", createdAt=" + createdAt + "]";
+//	}
     
 	
     
